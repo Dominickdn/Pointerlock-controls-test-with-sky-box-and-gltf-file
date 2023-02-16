@@ -4,6 +4,7 @@ import  {FBXLoader} from "three/examples/jsm/loaders/FBXloader.js";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 let camera, scene, renderer, controls;
 
+
 const objects = [];
  
 let raycaster;                     //This class is designed to assist with raycasting. Raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over) amongst other things.
@@ -39,6 +40,7 @@ function init() {
   scene = new THREE.Scene();                         
   scene.background = new THREE.Color(0xffffff);
   const skyLoader = new THREE.CubeTextureLoader();
+  //sky texture-clouds
 const skytexture = skyLoader.load([
     './resources/yellowcloud_ft.jpg',
     './resources/yellowcloud_bk.jpg',
@@ -51,10 +53,28 @@ scene.background = skytexture;
   scene.fog = new THREE.Fog(0x8A5000, 0, 750);
 
 //lighting
-  const light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
-  light.position.set(0.5, 1, 0.75);
-  scene.add(light);
+  const ambientLight =new THREE.AmbientLight(0xeeeeff, 0x777788, 0.75)
+  ambientLight.intensity =0.5;
+  scene.add(ambientLight)
 
+  const light = new THREE.DirectionalLight(0xeeeeff, 0x777788, 0.75);
+  light.position.set(130, 100, 100);
+  light.intensity=1;
+  //shadows
+  light.castShadow = true; 
+  light.shadow.mapSize.width = 2000;
+  light.shadow.mapSize.height = 2000;
+  light.shadow.camera.near = 2;
+  light.shadow.camera.far = 1500;
+  light.shadow.camera.near = 2;
+  light.shadow.camera.far = 1500;
+  light.shadow.camera.left = 1500;
+  light.shadow.camera.right = -1500;
+  light.shadow.camera.top = 1000;
+  light.shadow.camera.bottom = -1000;
+  
+
+  scene.add(light);
 //defining pointerlock
   controls = new PointerLockControls(camera, document.body);
 
@@ -104,7 +124,7 @@ scene.background = skytexture;
         break;
 
       case "Space":
-        if (canJump === true) velocity.y += 350;
+        if (canJump === true) velocity.y += 150;
         canJump = false;
         break;
     }
@@ -143,36 +163,39 @@ scene.background = skytexture;
     0,
     10 
   );
-  // floor/plane
+// floor/plane
   let floorGeometry = new THREE.PlaneGeometry(2000, 2000, 100, 100);
   floorGeometry.rotateX(-Math.PI / 2);
-
- 
 //floor material
-
   const floorMaterial = new THREE.MeshStandardMaterial({
-  color:0x614838
+  color:0x674F2D,
   });
- 
-  
 
-  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  const floor = new THREE.Mesh(floorGeometry,floorMaterial);
+  floor.receiveShadow = true; //shadows
+  floor.castShadow = false;
   scene.add(floor);
+
+
   //GLTF house
 
   const loader = new GLTFLoader();
 
-  loader.load( 'resources/house exportglb.glb', function ( gltf ) {
-    gltf.scene.position.set(0,11,-50)
+  loader.load( 'resources/house exportglb.glb', function ( glb ) {
+    const model = glb.scene;
+    scene.add(model);
+    model.position.set(0,11,-50);
+    
+    model.scale.set(15,15,15);
+    model.rotateY(-0.9);
+    model.traverse(function(node) {
+      if(node.isMesh)
+      node.castShadow = true;
+      node.receiveShadow=true;
+    });
 
-    gltf.scene.scale.set(15,15,15)
-  
-    scene.add( gltf.scene );
-  
   }, undefined, function ( error ) {
-  
     console.error( error );
-  
   } );
 
   // renderer size pixel ratio.. 
@@ -180,7 +203,10 @@ scene.background = skytexture;
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true; //shadows
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap
   document.body.appendChild(renderer.domElement);
+;
 
   //resizing listener
 
@@ -204,6 +230,7 @@ function animate() {
 
   requestAnimationFrame(animate);
 
+
 //time variable so animation is updated on time not device perfomance
   const time = performance.now();
 
@@ -222,7 +249,7 @@ function animate() {
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
 
-    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+    velocity.y -= 7 * 100.0 * delta; // 100.0 = mass
 
 //adding movement to the event listeners mentioned in the init function
     direction.z = Number(moveForward) - Number(moveBackward);
