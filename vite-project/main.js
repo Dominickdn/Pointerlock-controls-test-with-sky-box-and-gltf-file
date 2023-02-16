@@ -23,8 +23,6 @@ init();
 animate();
 
 
-
-
 function init() {
 
 
