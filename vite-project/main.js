@@ -48,7 +48,7 @@ const skytexture = skyLoader.load([
     './resources/yellowcloud_lf.jpg',
 ]);
 scene.background = skytexture;
-  scene.fog = new THREE.Fog(0x8A5000, 0, 750);
+  scene.fog = new THREE.Fog(0x8A5000, 0, 300);
 
 //lighting
   const ambientLight =new THREE.AmbientLight(0xeeeeff, 0x777788, 0.75)
@@ -60,8 +60,8 @@ scene.background = skytexture;
   light.intensity=1;
   //shadows
   light.castShadow = true; 
-  light.shadow.mapSize.width = 2000;
-  light.shadow.mapSize.height = 2000;
+  light.shadow.mapSize.width = 1000;
+  light.shadow.mapSize.height = 1000;
   light.shadow.camera.near = 2;
   light.shadow.camera.far = 1500;
   light.shadow.camera.near = 2;
@@ -162,11 +162,53 @@ scene.background = skytexture;
     10 
   );
 // floor/plane
-  let floorGeometry = new THREE.PlaneGeometry(2000, 2000, 100, 100);
+const floorTexture = new THREE.TextureLoader().load('resources/FreshTilledDirt_albedo.png');
+floorTexture.wrapS = THREE.RepeatWrapping;
+floorTexture.wrapT = THREE.RepeatWrapping;
+floorTexture.repeat.set( 30, 30 );
+
+const floorNormal = new THREE.TextureLoader().load('resources/FreshTilledDirt_normal.png');
+floorNormal.wrapS = THREE.RepeatWrapping;
+floorNormal.wrapT = THREE.RepeatWrapping;
+floorNormal.repeat.set( 30, 30 );
+
+const floorHeight = new THREE.TextureLoader().load('resources/FreshTilledDirt_height.png');
+floorHeight.wrapS = THREE.RepeatWrapping;
+floorHeight.wrapT = THREE.RepeatWrapping;
+floorHeight.repeat.set( 60, 60 );
+
+const floorEmissive =  new THREE.TextureLoader().load('resources/FreshTilledDirt_emissive.png');
+floorEmissive.wrapS = THREE.RepeatWrapping;
+floorEmissive.wrapT = THREE.RepeatWrapping;
+floorEmissive.repeat.set( 30, 30 );
+
+const floorOpacity = new THREE.TextureLoader().load('resources/FreshTilledDirt_opacity.png');
+floorOpacity.wrapS = THREE.RepeatWrapping;
+floorOpacity.wrapT = THREE.RepeatWrapping;
+floorOpacity.repeat.set( 30, 30 );
+
+const floorAo = new THREE.TextureLoader().load('resources/FreshTilledDirt_ambientocclusion.png');
+floorAo.wrapS = THREE.RepeatWrapping;
+floorAo.wrapT = THREE.RepeatWrapping;
+floorAo.repeat.set( 30, 30 );
+
+const floorMetal = new THREE.TextureLoader().load('resources/FreshTilledDirt_specular.png');
+floorMetal.wrapS = THREE.RepeatWrapping;
+floorMetal.wrapT = THREE.RepeatWrapping;
+floorMetal.repeat.set( 30, 100 );
+
+  let floorGeometry = new THREE.PlaneGeometry(1300, 1300, 100, 100);
   floorGeometry.rotateX(-Math.PI / 2);
 //floor material
   const floorMaterial = new THREE.MeshStandardMaterial({
-  color:0x674F2D,
+  map:floorTexture,
+  normalMap:floorNormal,
+  heightMap:floorHeight,
+  emissive:floorEmissive,
+  alphaMap: floorOpacity,
+  aoMap:floorAo,
+  metalnessMap:floorMetal,
+  color: 0x8A5000,
   });
 
   const floor = new THREE.Mesh(floorGeometry,floorMaterial);
@@ -195,6 +237,11 @@ scene.background = skytexture;
   }, undefined, function ( error ) {
     console.error( error );
   } );
+
+  //Zombie
+
+
+
 
   // renderer size pixel ratio.. 
 
