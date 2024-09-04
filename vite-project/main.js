@@ -48,16 +48,16 @@ const skytexture = skyLoader.load([
     './resources/yellowcloud_lf.jpg',
 ]);
 scene.background = skytexture;
-  scene.fog = new THREE.Fog(0x8A5000, 0, 300);
+  scene.fog = new THREE.Fog(0x8A5000, 0, 200);
 
 //lighting
   const ambientLight =new THREE.AmbientLight(0xeeeeff, 0x777788, 0.75)
-  ambientLight.intensity =0.5;
+  ambientLight.intensity =0.4;
   scene.add(ambientLight)
 
   const light = new THREE.DirectionalLight(0xeeeeff, 0x777788, 0.75);
   light.position.set(130, 100, 100);
-  light.intensity=1;
+  light.intensity=0.8;
   //shadows
   light.castShadow = true; 
   light.shadow.mapSize.width = 1000;
@@ -224,7 +224,7 @@ floorMetal.repeat.set( 30, 100 );
   loader.load( 'resources/house exportglb.glb', function ( glb ) {
     const model = glb.scene;
     scene.add(model);
-    model.position.set(0,11,-50);
+    model.position.set(0,11,-70);
     
     model.scale.set(15,15,15);
     model.rotateY(-0.9);
@@ -238,18 +238,14 @@ floorMetal.repeat.set( 30, 100 );
     console.error( error );
   } );
 
-  //Zombie
-
-
-
 
   // renderer size pixel ratio.. 
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setPixelRatio(0.95);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true; //shadows
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  renderer.shadowMap.type = THREE.VSMShadowMap
   document.body.appendChild(renderer.domElement);
 ;
 
