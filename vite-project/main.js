@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
-import  {FBXLoader} from "three/examples/jsm/loaders/FBXloader.js";
+//import  {FBXLoader} from "three/examples/jsm/loaders/FBXloader.js";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 let camera, scene, renderer, controls;
 
