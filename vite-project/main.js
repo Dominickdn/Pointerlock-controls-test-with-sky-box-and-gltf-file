@@ -40,12 +40,12 @@ function init() {
   const skyLoader = new THREE.CubeTextureLoader();
   //sky texture-clouds
 const skytexture = skyLoader.load([
-    './resources/yellowcloud_ft.jpg',
-    './resources/yellowcloud_bk.jpg',
-    './resources/yellowcloud_up.jpg',
-    './resources/yellowcloud_dn.jpg',
-    './resources/yellowcloud_rt.jpg',
-    './resources/yellowcloud_lf.jpg',
+    './assets/yellowcloud_ft.jpg',
+    './assets/yellowcloud_bk.jpg',
+    './assets/yellowcloud_up.jpg',
+    './assets/yellowcloud_dn.jpg',
+    './assets/yellowcloud_rt.jpg',
+    './assets/yellowcloud_lf.jpg',
 ]);
 scene.background = skytexture;
   scene.fog = new THREE.Fog(0x8A5000, 0, 200);
@@ -162,37 +162,37 @@ scene.background = skytexture;
     10 
   );
 // floor/plane
-const floorTexture = new THREE.TextureLoader().load('resources/FreshTilledDirt_albedo.png');
+const floorTexture = new THREE.TextureLoader().load('assets/FreshTilledDirt_albedo.png');
 floorTexture.wrapS = THREE.RepeatWrapping;
 floorTexture.wrapT = THREE.RepeatWrapping;
 floorTexture.repeat.set( 30, 30 );
 
-const floorNormal = new THREE.TextureLoader().load('resources/FreshTilledDirt_normal.png');
+const floorNormal = new THREE.TextureLoader().load('assets/FreshTilledDirt_normal.png');
 floorNormal.wrapS = THREE.RepeatWrapping;
 floorNormal.wrapT = THREE.RepeatWrapping;
 floorNormal.repeat.set( 30, 30 );
 
-const floorHeight = new THREE.TextureLoader().load('resources/FreshTilledDirt_height.png');
+const floorHeight = new THREE.TextureLoader().load('assets/FreshTilledDirt_height.png');
 floorHeight.wrapS = THREE.RepeatWrapping;
 floorHeight.wrapT = THREE.RepeatWrapping;
 floorHeight.repeat.set( 60, 60 );
 
-const floorEmissive =  new THREE.TextureLoader().load('resources/FreshTilledDirt_emissive.png');
+const floorEmissive =  new THREE.TextureLoader().load('assets/FreshTilledDirt_emissive.png');
 floorEmissive.wrapS = THREE.RepeatWrapping;
 floorEmissive.wrapT = THREE.RepeatWrapping;
 floorEmissive.repeat.set( 30, 30 );
 
-const floorOpacity = new THREE.TextureLoader().load('resources/FreshTilledDirt_opacity.png');
+const floorOpacity = new THREE.TextureLoader().load('assets/FreshTilledDirt_opacity.png');
 floorOpacity.wrapS = THREE.RepeatWrapping;
 floorOpacity.wrapT = THREE.RepeatWrapping;
 floorOpacity.repeat.set( 30, 30 );
 
-const floorAo = new THREE.TextureLoader().load('resources/FreshTilledDirt_ambientocclusion.png');
+const floorAo = new THREE.TextureLoader().load('assets/FreshTilledDirt_ambientocclusion.png');
 floorAo.wrapS = THREE.RepeatWrapping;
 floorAo.wrapT = THREE.RepeatWrapping;
 floorAo.repeat.set( 30, 30 );
 
-const floorMetal = new THREE.TextureLoader().load('resources/FreshTilledDirt_specular.png');
+const floorMetal = new THREE.TextureLoader().load('assets/FreshTilledDirt_specular.png');
 floorMetal.wrapS = THREE.RepeatWrapping;
 floorMetal.wrapT = THREE.RepeatWrapping;
 floorMetal.repeat.set( 30, 100 );
@@ -221,7 +221,7 @@ floorMetal.repeat.set( 30, 100 );
 
   const loader = new GLTFLoader();
 
-  loader.load( 'resources/house exportglb.glb', function ( glb ) {
+  loader.load( 'assets/house exportglb.glb', function ( glb ) {
     const model = glb.scene;
     scene.add(model);
     model.position.set(0,11,-70);
